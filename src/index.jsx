@@ -19,8 +19,7 @@ import Form from '@/components/form/Form'
 
 const App = () => (
   <div className="container">
-    <Form 
-      title = "Login"/>
+    <Form title = "Login"/>
   </div>
 )
 
