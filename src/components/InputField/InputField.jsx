@@ -15,6 +15,7 @@ const className = {
  * @param {string} props.name 
  * @param {string} props.placeholder
  * @param {string} props.type
+ * @param {function} props.change
  */
 function InputField(props) {
     const inputRef = createRef()
@@ -25,7 +26,7 @@ function InputField(props) {
         placeholderAnimationIn(parent, true);
     })
     const handleBlur = useCallback(event => {
-        const parent = event.target.parentNode
+        const parent = event.target.parentNode;
         if(event.target.value.length) return;
         parent.classList.remove('filled');
         placeholderAnimationIn(parent, false);
@@ -49,7 +50,10 @@ function InputField(props) {
     }, [ handleBlur ])
 
     
-    const handleChange = (event) => setValue(event.target.value); 
+    const handleChange = (event) => {
+        setValue(event.target.value);
+        props.change(event.target.value);
+    } 
 
     return (
         <div className = { className.root }>

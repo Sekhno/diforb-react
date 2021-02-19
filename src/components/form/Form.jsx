@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './form.less'
 import InputField from '../InputField/InputField'
 import ButtonForm from '../buttonForm/ButtonForm'
@@ -9,8 +9,12 @@ import ButtonForm from '../buttonForm/ButtonForm'
  * @param {object} props
  * @param {string} props.title  
  */
-
 function Form(props) {
+    const initValue = {
+        username: null,
+        password: null
+    } 
+
     setTimeout(function(){
         document.body.classList.add('on-start');
     }, 100);
@@ -18,6 +22,10 @@ function Form(props) {
     setTimeout(function(){
         document.body.classList.add('document-loaded');
     }, 1800);
+
+    const submit = () => {
+        alert('Submit')
+    }
 
     return (
         <main>
@@ -43,15 +51,20 @@ function Form(props) {
                         name = "nickname"
                         placeholder = "Username"
                         type = "text"
+                        change = { (username) => console.log(username) }
                     />
 
                     <InputField 
                         name = "password"
                         placeholder = "Password"
                         type = "password"
+                        change = { (password) => console.log(password) }
                     />
                     
-                    <ButtonForm title = "Submit"/>
+                    <ButtonForm 
+                        title = "Submit"
+                        submit = { submit }
+                    />
                     
                 </div>
             </form>
