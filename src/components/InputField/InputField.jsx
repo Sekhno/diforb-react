@@ -51,8 +51,12 @@ function InputField(props) {
 
     
     const handleChange = (event) => {
-        setValue(event.target.value);
-        props.change(event.target.value);
+        const name = props.name
+        const value = event.target.value
+        setValue(event.target.value)
+        props.change({
+            [name]: value
+        })
     } 
 
     return (

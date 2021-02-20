@@ -2,6 +2,19 @@ import React, { useState } from 'react'
 import './form.less'
 import InputField from '../InputField/InputField'
 import ButtonForm from '../buttonForm/ButtonForm'
+import { getFirebaseBackend  } from "@/helpers/firebase_helper"
+
+/**
+ * className space
+ */
+const className = {
+    root: 'form',
+    cover: 'form__cover',
+    loader: 'form__loader',
+    content: 'form__content'
+}
+
+
 
 /**
  * React component
@@ -24,41 +37,47 @@ function Form(props) {
     }, 1800);
 
     const submit = () => {
-        alert('Submit')
+        const { username, password } = initValue
+        const firebase = getFirebaseBackend();
+        firebase.loginUser(username, password)
+    }
+
+    const handleChange = (event) => {
+        Object.assign(initValue, event)
     }
 
     return (
         <main>
-            <form className = "form">
-                <div className = "form__cover"></div>
-                <div className="form__loader">
-                    <div className="spinner active">
-                        <svg className="spinner__circular" viewBox="25 25 50 50">
+            <form className = { className.root }>
+                <div className = { className.cover }></div>
+                <div className = { className.loader }>
+                    <div className = "spinner active">
+                        <svg className = "spinner__circular" viewBox="25 25 50 50">
                             <circle 
-                                className="spinner__path" 
-                                cx="50" cy="50" r="20" 
-                                fill="none" 
-                                strokeWidth="4" 
-                                strokeMiterlimit="10">
+                                className = "spinner__path" 
+                                cx = "50" cy = "50" r = "20" 
+                                fill = "none" 
+                                strokeWidth = "4" 
+                                strokeMiterlimit = "10">
                             </circle>
                         </svg>
                     </div>
                 </div>
-                <div className="form__content">
+                <div className = { className.content }>
                     <h1>{ props.title }</h1>
 
                     <InputField 
-                        name = "nickname"
+                        name = "username"
                         placeholder = "Username"
                         type = "text"
-                        change = { (username) => console.log(username) }
+                        change = { handleChange }
                     />
 
                     <InputField 
                         name = "password"
                         placeholder = "Password"
                         type = "password"
-                        change = { (password) => console.log(password) }
+                        change = { handleChange }
                     />
                     
                     <ButtonForm 
