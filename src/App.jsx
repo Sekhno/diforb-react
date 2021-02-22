@@ -10,6 +10,8 @@ import { initFirebaseBackend } from "@/helpers/firebase_helper"
 import VerticalLayout from "./components/VerticalLayout/"
 import NonAuthLayout from "./components/NonAuthLayout"
 
+import Diforb from "./components/Diforb/Diforb"
+
 const firebaseConfig = {
 	apiKey: "AIzaSyAISYi8vsy_vevtSubMdg1mpD9NXDkb6bE",
 	authDomain: "diforb-3f984.firebaseapp.com",
@@ -20,20 +22,33 @@ const firebaseConfig = {
 	appId: "1:990232084653:web:1c660e027f12719967c624"
 }
 
+const style = {
+    width: "100vw",
+    height: "100vh",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center"
+}
+
 // init firebase backend
 initFirebaseBackend(firebaseConfig)
 
 const App = props => {
-    function getLayout() {
-        let layoutCls = VerticalLayout
+    // function getLayout() {
+    //     let layoutCls = VerticalLayout
         
-        return layoutCls
-      }
+    //     return layoutCls
+    // }
     
-      const Layout = getLayout()
+    // const Layout = getLayout()
     return (
         <React.Fragment>
-            <Router>
+            <div style = { style }>
+                <Diforb name = "interface"/>
+            </div>
+
+            
+            {/* <Router>
                 <Switch>
                     {authRoutes.map((route, idx) => (
                         <Authmiddleware
@@ -56,7 +71,7 @@ const App = props => {
                         />
                     ))}
                 </Switch>
-            </Router>
+            </Router> */}
         </React.Fragment>
     )
 }
