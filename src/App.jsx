@@ -10,7 +10,10 @@ import { initFirebaseBackend } from "@/helpers/firebase_helper"
 import VerticalLayout from "./components/VerticalLayout/"
 import NonAuthLayout from "./components/NonAuthLayout"
 
+import { playSound } from "./services/audio"
+
 import Diforb from "./components/Diforb/Diforb"
+
 
 const firebaseConfig = {
 	apiKey: "AIzaSyAISYi8vsy_vevtSubMdg1mpD9NXDkb6bE",
@@ -86,5 +89,5 @@ const mapStateToProps = state => {
     }
 }
 
-export default App
+export default connect(mapStateToProps, null)(App)
 

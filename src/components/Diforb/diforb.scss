@@ -103,5 +103,23 @@ body {
             justify-content: center;
         }
     }
+
+    .button-play {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        border: 1px solid;
+        cursor: pointer;
+    }
     
+}
+
+$color: #4AB873;
+
+
+.handler {
+    cursor: pointer;
 }

@@ -1,4 +1,5 @@
 import firebase from "firebase/app"
+import '@firebase/storage';
 
 // Add the Firebase products that you want to use
 import "firebase/auth"
@@ -201,4 +202,8 @@ const getFirebaseBackend = () => {
   return _fireBaseBackend
 }
 
-export { initFirebaseBackend, getFirebaseBackend }
+const getFirebaseStorage = () => {
+  return firebase.storage()
+}
+
+export { initFirebaseBackend, getFirebaseBackend, getFirebaseStorage }

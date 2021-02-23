@@ -50,22 +50,14 @@ const Timeshift = props => {
 
     useEffect(() => {
         const svgElem = handlerRef.current.parentNode;
-        console.log("is Grab", isGrab)
-        console.log(handlerRef);
 
-        handlerRef.current.addEventListener(EVENT.MOUSEDOWN, event => {
-            console.log('MouseDown')
+        handlerRef.current.addEventListener(EVENT.MOUSEDOWN, _ => {
             svgElem.addEventListener(EVENT.MOUSEMOVE, handlerMove)
         })
 
-        window.addEventListener(EVENT.MOUSEUP, event => {
-            console.log('MouseUp')
+        window.addEventListener(EVENT.MOUSEUP, _ => {
             svgElem.removeEventListener(EVENT.MOUSEMOVE, handlerMove)
-        })
-
-        return () => {
-            console.log('Remove', isGrab)
-        }
+        }, { once: true })
     }, [handlerRef])
 
     return (
@@ -176,7 +168,7 @@ const Timeshift = props => {
                     C201.414,47.418,201.806,47.744,202.293,47.874z" /> 
                 </g>
             </g>
-            <g  className = { className.handler }
+            <g className = { className.handler }
                 ref = { handlerRef } 
                 transform = "translate(126, 26)">
                 <g>
