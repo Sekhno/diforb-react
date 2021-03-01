@@ -8,6 +8,9 @@ import "../../assets/styles/Diforb_ui/style.css"
 
 import Timeshift from "./Timeshift"
 import VolumeLeft from "./VolumeLeft"
+import VolumeRight from "./VolumeRight"
+import Pitch from "./Pitch"
+import ReverbLeft from "./ReverbLeft"
 
 const className = {
     root: "player",
@@ -24,6 +27,11 @@ const className = {
     sliderTop: "slider-top",
     sliderMiddle: "slider-middle",
     sliderBottom: "slider-bottom",
+    sliderMiddleLeft: "slider-middle-left",
+    sliderMiddleRight: "slider-middle-right",
+    pitchWrappers: "pitch-wrappers",
+    pitchLeft: "pitch-left",
+    pitchRight: "pitch-right",
 
     buttonPlay: "button-play"
 
@@ -56,7 +64,27 @@ const Diforb = props => {
                     </div>
 
                     <div className = { className.sliderMiddle }>
-                        <VolumeLeft />
+                        <div className = { className.sliderMiddleLeft }>
+                            <VolumeLeft />
+                        </div>
+                        <div className = { className.sliderMiddleRight }>
+                            <VolumeRight />
+                        </div>
+                    </div>
+                    <div className = { className.pitchWrappers }>
+                        <div className = { className.pitchLeft }>
+                            <Pitch />
+                        </div>
+                        <div className = { className.pitchRight }>
+                            <Pitch />
+                        </div>
+                    </div>
+
+                    <div className = { className.sliderBottom }>
+                        <div className = { className.sliderBottomLeft }>
+                            <ReverbLeft />
+                        </div>
+                        <div className = { className.sliderBottomRight }></div>
                     </div>
 
                     <div 
@@ -64,11 +92,10 @@ const Diforb = props => {
                         onClick = { playing ? playerStop : playerPlay }
                     >
                         { 
-                            playing ?
-                                <i className = { className.iconPause } ></i> :
-                                <i className = { className.iconPlay }></i>
+                            playing 
+                                ? <i className = { className.iconPause } ></i> 
+                                : <i className = { className.iconPlay }></i>
                         }
-                        
                     </div>
                 </div>
             </div>

@@ -102,6 +102,16 @@ body {
             display: flex;
             justify-content: center;
         }
+
+        &-middle {
+            display: flex;
+            justify-content: space-between;
+        }
+    }
+
+    .pitch-wrappers {
+        display: flex;
+        justify-content: space-between;
     }
 
     .button-play {

@@ -1,5 +1,9 @@
 import React from "react"
 
+/**
+ * 
+ * @param {*} props 
+ */
 const VolumeLeft = props => {
     return (
         <svg  x="0px" y="0px" width="105px" height="227px" viewBox="0 0 105 227" enableBackground="new 0 0 105 227" >

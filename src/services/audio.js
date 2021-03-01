@@ -10,7 +10,7 @@ try {
 
 if (context !== undefined) {
     /* Наш код здесь */
-    fetchSound('./src/assets/audio/Tizers/Birds_tizer.mp3')
+    // fetchSound('./src/assets/audio/Tizers/Birds_tizer.mp3')
     
     
 }
@@ -24,9 +24,9 @@ async function fetchSound(url) {
     const buffer = await blob.arrayBuffer()
     const audio = await context.decodeAudioData(buffer)
     console.log(audio)
-    document.addEventListener('click', () => {
-        playSound(audio)
-    }, { once: true })
+    // document.addEventListener('click', () => {
+    //     playSound(audio)
+    // }, { once: true })
 }    
 
 function playSound(audio) {
