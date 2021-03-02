@@ -6,13 +6,13 @@ import {
 export const playerPlay = state => {
     return {
         type: PLAYER_PLAY,
-        payload: { state }
+        payload: { playing: true }
     }
 }
 
 export const playerStop = state => {
     return {
         type: PLAYER_STOP,
-        payload: { state }
+        payload: { playing: false }
     }
 }

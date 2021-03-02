@@ -1,10 +1,20 @@
 import React from "react"
 
+/**
+ * 
+ * @param {*} props 
+ */
 const ReverbLeft = props => {
     const reverConfigs = [
-        {},
-        {},
-        {}
+        {
+            x: 40, y: 8, selected: false, title: 'Room'
+        },
+        {
+            x: 59, y: 27, selected: false, title: 'Hall'
+        },
+        {
+            x: 80, y: 45, selected: false, title: 'Stadium'
+        }
     ]
     const clickReverb = () => {}
     const reverbBtns = reverConfigs.map((value, index) => {

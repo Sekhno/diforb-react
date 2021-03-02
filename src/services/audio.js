@@ -1,4 +1,4 @@
-
+import store from "../store/index"
 
 let context;
 
@@ -11,7 +11,6 @@ try {
 if (context !== undefined) {
     /* Наш код здесь */
     // fetchSound('./src/assets/audio/Tizers/Birds_tizer.mp3')
-    
     
 }
 

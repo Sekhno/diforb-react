@@ -107,6 +107,11 @@ body {
             display: flex;
             justify-content: space-between;
         }
+
+        &-bottom {
+            display: flex;
+            justify-content: space-between;
+        }
     }
 
     .pitch-wrappers {
@@ -115,6 +120,10 @@ body {
     }
 
     .button-play {
+        position: absolute;
+        left: 50%;
+        top: calc(50% + 170px);
+        transform: translate(-50%, -50%);
         display: flex;
         justify-content: center;
         align-items: center;
@@ -123,6 +132,13 @@ body {
         border-radius: 50%;
         border: 1px solid;
         cursor: pointer;
+    }
+
+    .button-download {
+        position: absolute;
+        left: 50%;
+        top: calc(50% + 250px);
+        transform: translate(-50%, -50%);
     }
     
 }

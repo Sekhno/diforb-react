@@ -11,7 +11,12 @@ import VolumeLeft from "./VolumeLeft"
 import VolumeRight from "./VolumeRight"
 import Pitch from "./Pitch"
 import ReverbLeft from "./ReverbLeft"
+import ReverbRight from "./ReverbRight"
+import Knob from "./Knob"
 
+/**
+ * @const className
+ */
 const className = {
     root: "player",
     wrapper: "player-holder",
@@ -19,23 +24,22 @@ const className = {
     wave: "player-wave",
     waveHolder: "player-wave-holder",
     waveInner: "player-wave-inner",
-
     iconLogo: "icon-logo",
     iconPlay: "icon-play",
     iconPause: "icon-pause",
-
     sliderTop: "slider-top",
     sliderMiddle: "slider-middle",
     sliderBottom: "slider-bottom",
     sliderMiddleLeft: "slider-middle-left",
     sliderMiddleRight: "slider-middle-right",
+    sliderBottom: "slider-bottom",
     pitchWrappers: "pitch-wrappers",
     pitchLeft: "pitch-left",
     pitchRight: "pitch-right",
-
-    buttonPlay: "button-play"
-
+    buttonPlay: "button-play",
+    buttonDownload: "button-download"
 }
+
 /**
  * 
  * @param {*} props 
@@ -60,7 +64,7 @@ const Diforb = props => {
                     </div>
 
                     <div className = { className.sliderTop }>
-                        <Timeshift />
+                        <Timeshift onChange = { (v) => v }/>
                     </div>
 
                     <div className = { className.sliderMiddle }>
@@ -84,7 +88,9 @@ const Diforb = props => {
                         <div className = { className.sliderBottomLeft }>
                             <ReverbLeft />
                         </div>
-                        <div className = { className.sliderBottomRight }></div>
+                        <div className = { className.sliderBottomRight }>
+                            <ReverbRight />
+                        </div>
                     </div>
 
                     <div 
@@ -96,6 +102,9 @@ const Diforb = props => {
                                 ? <i className = { className.iconPause } ></i> 
                                 : <i className = { className.iconPlay }></i>
                         }
+                    </div>
+                    <div className = { className.buttonDownload }>
+                        DownLoad
                     </div>
                 </div>
             </div>

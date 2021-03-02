@@ -1,4 +1,5 @@
 import React, { createRef, useEffect, useState } from "react"
+import { fromEvent } from "rxjs"
 
 const className = {
     volumeRange: "volume-range",
@@ -18,19 +19,20 @@ let isGrab = false;
 /**
  * 
  * @param {*} props 
+ * @param {Function} props.onChange
  */
 const Timeshift = props => {
+    const { onChange } = props
     const handlerRef = createRef()
     const handlerMove = event => {
-        let 
-        volume = Math.floor(140 - event.offsetX),
-        centerX = 125,
-        centerY = 266,
-        radius = 240,
-        angle = 0,
-        numObjects = 1450,
-        slice = Math.PI * 2 / numObjects,
-        x, y;
+        let volume = Math.floor(140 - event.offsetX),
+            centerX = 125,
+            centerY = 266,
+            radius = 240,
+            angle = 0,
+            numObjects = 1450,
+            slice = Math.PI * 2 / numObjects,
+            x, y;
 		
 		if (volume > 71) volume = 70;
 		if (volume < -70) volume = -70;
@@ -42,22 +44,24 @@ const Timeshift = props => {
 		const prop = 'transform';
 		const value = `translate(${x}, ${y})`;
 
-        handlerRef.current.setAttribute(prop, value)
-		console.log(volume);
-		// this.handlerElem && this.render2.setAttribute(this.handlerElem, prop, value);	
-		// this.changedTimeshift.emit(volume);
+        handlerRef.current && handlerRef.current.setAttribute(prop, value)
+		onChange(volume)
     }
 
     useEffect(() => {
-        const svgElem = handlerRef.current.parentNode;
+        const svgElem = handlerRef.current.parentNode
 
-        handlerRef.current.addEventListener(EVENT.MOUSEDOWN, _ => {
-            svgElem.addEventListener(EVENT.MOUSEMOVE, handlerMove)
-        })
-
-        window.addEventListener(EVENT.MOUSEUP, _ => {
-            svgElem.removeEventListener(EVENT.MOUSEMOVE, handlerMove)
-        }, { once: true })
+        fromEvent(handlerRef.current, EVENT.MOUSEDOWN)
+            .subscribe(e => {
+                const mouseMoveSubscription = fromEvent(svgElem, EVENT.MOUSEMOVE).subscribe(handlerMove)
+                const mouseUpSubscription = fromEvent(window, EVENT.MOUSEUP).subscribe(e => {
+                    mouseUpSubscription.unsubscribe()
+                    mouseMoveSubscription.unsubscribe()
+                })
+            })
+        return () => {
+            console.log("Destroy hendlerRef")
+        }
     }, [handlerRef])
 
     return (
