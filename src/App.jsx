@@ -10,7 +10,7 @@ import { initFirebaseBackend } from "@/helpers/firebase_helper"
 import VerticalLayout from "./components/VerticalLayout/"
 import NonAuthLayout from "./components/NonAuthLayout"
 
-import { playSound } from "./services/audio"
+import { sound } from "./services/audio"
 
 import Diforb from "./components/Diforb/Diforb"
 

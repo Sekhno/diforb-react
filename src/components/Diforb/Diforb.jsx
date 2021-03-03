@@ -12,7 +12,8 @@ import VolumeRight from "./VolumeRight"
 import Pitch from "./Pitch"
 import ReverbLeft from "./ReverbLeft"
 import ReverbRight from "./ReverbRight"
-import Knob from "./Knob"
+// import Knob from "./Knob"
+import Knob from "./Knob2"
 
 /**
  * @const className
@@ -77,10 +78,10 @@ const Diforb = props => {
                     </div>
                     <div className = { className.pitchWrappers }>
                         <div className = { className.pitchLeft }>
-                            <Pitch />
+                            <Knob onChange = {(v) => console.log(v)}/>
                         </div>
                         <div className = { className.pitchRight }>
-                            <Pitch />
+                            <Knob onChange = {(v) => console.log(v)}/>
                         </div>
                     </div>
 
