@@ -1,22 +1,33 @@
-function BufferLoader(context, uToken) {
-	this.context = context;
-	this.loadCount = 0;
+class BufferLoader {
+	constructor(context){
+		this.context = context;
+		this.loadCount = 0;
 
-	this.Left = null;
-	this.Right = null;
+		this.Left = null;
+		this.Right = null;
 
-	this.reverSound = null;
-	this.reverSounds = [];
-	this.reverSounds["Hall"] = null;
-	this.reverSounds["Noise"] = null;
-	this.reverSounds["Glass_hit"] = null;
+		this.reverSound = null;
+		this.reverSounds = [];
+		this.reverSounds["Hall"] = null;
+		this.reverSounds["Noise"] = null;
+		this.reverSounds["Glass_hit"] = null;
+	}
 
-	this.userToken = uToken;
+	loadLeft(url, callBackFunc) {
+		this.loadBuffer(url, callBackFunc);
+	}
+
+	loadReverb(callBackFunc) {
+		this.loadBuffer('src/sounds/reverb/irHall.ogg', this.reverSounds["Hall"],
+			function(){this.loadBuffer('src/sounds/reverb/noise.ogg', this.reverSounds["Noise"],
+				function(){this.loadBuffer('src/sounds/reverb/glass-hit.ogg', this.reverSounds["Glass_hit"],
+					callBackFunc); this.reverSound = this.reverSounds["Hall"]
+				});
+			});
+	}
 }
 
-BufferLoader.prototype.loadLeft = function(url, callBackFunc) {
-	this.loadBuffer(url, callBackFunc);
-}
+
 
 BufferLoader.prototype.loadReverb = function(callBackFunc) {
 	this.loadBuffer('src/sounds/reverb/irHall.ogg', this.reverSounds["Hall"],

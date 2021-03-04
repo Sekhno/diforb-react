@@ -1,3 +1,5 @@
+import { ajax } from "rxjs/ajax"
+
 const BASE_AUDIO_URL = './src/assets/audio/'
 let actx, compressor, reverbs = []
 
@@ -28,14 +30,16 @@ class Sound {
         this.audioBuffer = null
         this.gainNode = this.actx.createGain()
         this.gainNode.gain.value = 3
+        // this.reverbgainNode = this.actx.createGain()
+        // this.reverbgainNode.gain.value = 0
         
-        this.convolver = this.actx.createConvolver()
-        this.convolver.buffer = reverbs[0]
+        
+        // this.convolver = this.actx.createConvolver()
+        // this.convolver.buffer = reverbs[0]
 
         // PART Init
+        this.gainNode.connect(compressor)
         
-        this.gainNode.connect(this.convolver)
-        this.convolver.connect(compressor)
         // PART METHODs
 
         this.playAudio =  () => {
@@ -79,6 +83,20 @@ async function setupReverbs() {
     reverbs.push(reverb1)
     reverbs.push(reverb2)
     reverbs.push(reverb3)
+    
+    // ajax({
+    //     url: BASE_AUDIO_URL + 'Reverbs/irHall.ogg',
+    //     method: 'GET',
+    //     headers: {
+    //         responseType: 'blob',
+    //         mode: 'no-cors'
+    //     },
+    //     responseType: 'blob'
+    // }).subscribe(
+    //     res => console.log(res),
+    //     err => console.log(err),
+    //     ___ => console.log("Complete!")
+    // )
 }
 
 

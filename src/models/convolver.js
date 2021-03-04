@@ -1,67 +1,63 @@
-function Convolver(contex)
-{
-	this.context = contex;
-	this.source = null;
-	this.volume = 1.0;
-	this.muted = false;
+/**
+ * @class Convolver
+ */
+class Convolver {
+	constructor(context) {
+		this.context = contex
+		this.source = null
+		this.volume = 1.0
+		this.muted = false
 
-	this.instance = null;
-	this.convolverGainNode = null;
-	this.isOn = false;
+		this.instance = null
+		this.convolverGainNode = null
+		this.isOn = false
 
-	this.init();
-}
-
-//--------- Functions   ----------------
-
-Convolver.prototype.init = function()
-{
-    this.instance = this.context.createConvolver();
-    this.gainNode = this.context.createGain();
-	this.instance.connect(this.gainNode);
-	this.setGainVolume();    
-}
-
-Convolver.prototype.setBuffer = function(buffer)
-{
-	if(!this.instance)
-	{
-		return;
+		this.init()
 	}
 
-	if(buffer === "")
-	{
-		this.isOn = false;
-		this.instance.buffer
-	} else
-	{
-		this.isOn = true;
-		this.instance.buffer = buffer;
+	init() {
+		this.instance = this.context.createConvolver();
+		this.gainNode = this.context.createGain();
+		this.instance.connect(this.gainNode);
+		this.setGainVolume();    
 	}
-}
 
-Convolver.prototype.mute = function()
-{
-	this.muted = true;
-	this.setGainVolume();
-}
+	setBuffer(buffer) {
+		if(!this.instance)
+		{
+			return;
+		}
 
-Convolver.prototype.unmute = function()
-{
-	this.muted = false;
-	this.setGainVolume();
-}
+		if(buffer === "")
+		{
+			this.isOn = false;
+			this.instance.buffer
+		} else
+		{
+			this.isOn = true;
+			this.instance.buffer = buffer;
+		}
+	}
 
-Convolver.prototype.setVolume = function(val)
-{
-	this.volume = val;
-	this.setGainVolume();
-}
+	mute () {
+		this.muted = true;
+		this.setGainVolume();
+	}
 
-Convolver.prototype.setGainVolume = function()
-{
-	if(this.gainNode)
-	{
-		this.gainNode.gain.value = this.muted ? 0 : this.volume;
+	unmute () {
+		this.muted = false;
+		this.setGainVolume();
+	}
+
+ 	setVolume (val) {
+		this.volume = val;
+		this.setGainVolume();
+	}
+
+	setGainVolume () {
+		if(this.gainNode)
+		{
+			this.gainNode.gain.value = this.muted ? 0 : this.volume;
+		}
 	}
 }
