@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import './form.less'
 import InputField from '../InputField/InputField'
 import ButtonForm from '../buttonForm/ButtonForm'
-import { getFirebaseBackend  } from "@/helpers/firebase_helper"
+import { getFirebaseBackend  } from '@/helpers/firebase_helper'
 
 /**
  * className space
@@ -15,11 +15,10 @@ const className = {
 }
 
 
-
 /**
  * React component
  * 
- * @param {object} props
+ * @param {*} props
  * @param {string} props.title  
  */
 function Form(props) {
@@ -51,14 +50,14 @@ function Form(props) {
             <form className = { className.root }>
                 <div className = { className.cover }></div>
                 <div className = { className.loader }>
-                    <div className = "spinner active">
-                        <svg className = "spinner__circular" viewBox="25 25 50 50">
+                    <div className = 'spinner active'>
+                        <svg className = 'spinner__circular' viewBox='25 25 50 50'>
                             <circle 
-                                className = "spinner__path" 
-                                cx = "50" cy = "50" r = "20" 
-                                fill = "none" 
-                                strokeWidth = "4" 
-                                strokeMiterlimit = "10">
+                                className = 'spinner__path' 
+                                cx = '50' cy = '50' r = '20' 
+                                fill = 'none' 
+                                strokeWidth = '4' 
+                                strokeMiterlimit = '10'>
                             </circle>
                         </svg>
                     </div>
@@ -67,21 +66,21 @@ function Form(props) {
                     <h1>{ props.title }</h1>
 
                     <InputField 
-                        name = "username"
-                        placeholder = "Username"
-                        type = "text"
+                        name = 'username'
+                        placeholder = 'Username'
+                        type = 'text'
                         change = { handleChange }
                     />
 
                     <InputField 
-                        name = "password"
-                        placeholder = "Password"
-                        type = "password"
+                        name = 'password'
+                        placeholder = 'Password'
+                        type = 'password'
                         change = { handleChange }
                     />
                     
                     <ButtonForm 
-                        title = "Submit"
+                        title = 'Submit'
                         submit = { submit }
                     />
                     

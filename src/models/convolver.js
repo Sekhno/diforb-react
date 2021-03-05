@@ -1,9 +1,11 @@
 /**
  * @class Convolver
+ * @constructor
+ * @param {AudioContext} context
  */
 class Convolver {
 	constructor(context) {
-		this.context = contex
+		this.context = context
 		this.source = null
 		this.volume = 1.0
 		this.muted = false
@@ -61,3 +63,5 @@ class Convolver {
 		}
 	}
 }
+
+export default Convolver

@@ -24,7 +24,7 @@ class Library {
 		this.GainNode = this.Context.createGain();
 		this.LeftSide  = new Side(this.GainNode);
 		this.RightSide = new Side(this.GainNode);
-
+		
 		this.Compressor = new Compressor();
 		this.GainNode.connect(this.Compressor.Instance);
 		this.Compressor.Instance.connect(this.Context.destination);
@@ -95,23 +95,28 @@ class Library {
 
 		this.SaveOnce = function()
 		{
-			var recorder = libraryInst.Recorder;
-			if(libraryInst.IsPlaying &&
-			libraryInst.IsRecording)
+			var recorder = libraryInst.Recorder
+			
+			if (libraryInst.IsPlaying &&
+				libraryInst.IsRecording)
 			{
 				recorder.StartRecording();
 				libraryInst.PlayOnce();
 			} else
 			{
+				var fileForDownload
 				// zip blobs
-				if(recorder.SoundBlobs)
-					var fileForDownload = null;
-				if(recorder.SoundBlobs.length > 1)
+				if	(recorder.SoundBlobs) {
+					fileForDownload = null
+				}
+					
+				if	(recorder.SoundBlobs.length > 1)
 				{
 					fileForDownload = libraryInst.Zip(recorder.SoundBlobs);
 				} else {
 					fileForDownload = recorder.SoundBlobs[0];
 				}
+				console.log(fileForDownload)
 			}
 		}
 
@@ -169,7 +174,7 @@ class Side {
 			this.Sounds[name] = new Sound(this.GainNode, this.LibGainNode);
 		}
 
-		this.ResetSounds = function(name)
+		this.ResetSounds = function()
 		{
 			this.reseted = !this.reseted;
 			if((!this.Sounds || this.Sounds.length <= 0) ||
@@ -200,7 +205,7 @@ class Side {
 
 		this.Stop = function()
 		{
-			var thisSide = this;
+			// var thisSide = this;
 			this.Sounds.forEach(function(soundName, i, arr) {
 				arr[soundName].Stop();
 			});
@@ -226,11 +231,11 @@ class Side {
 
 			return; 
 
-			var soundVolume = this.ApplyCrossfade(this.Volume);
+			// var soundVolume = this.ApplyCrossfade(this.Volume);
 
-			this.Sounds.forEach( function(soundName, i, arr) {
-				arr[soundName].SetVolume(soundVolume);
-			});
+			// this.Sounds.forEach( function(soundName, i, arr) {
+			// 	arr[soundName].SetVolume(soundVolume);
+			// });
 		}
 
 		this.ApplyCrossfade = function(val)
@@ -273,64 +278,61 @@ class Side {
 class Sound {
 	constructor(sideGainNode)
 	{
-		this.Name = "";
-		this.Files = [];
-		this.DelayVal = 0.001;
-		this.SoundImg = new Image();
-		this.SurfaceImg = new Image();
-		this.CurrenReadingSound = null;
-		this.Path = "";
-		this.Source = null;
-		this.GainNode = this.Context.createGain();
-		this.SideGainNode = sideGainNode;
-		this.NowPlaingFile = null;
-		this.PlaybackRate = 1;
-		this.IsMuted = false;
-		this.IsPlaying = false;
-		this.IsReading = false;
-		this.Volume = 1;
-		this.CrossFadeValue = 1;
+		this.Name = ''
+		this.Files = []
+		this.DelayVal = 0.001
+		// this.SoundImg = new Image()
+		// this.SurfaceImg = new Image()
+		this.CurrenReadingSound = null
+		this.Path = ''
+		this.Source = null
+		this.GainNode = this.Context.createGain()
+		this.SideGainNode = sideGainNode
+		this.NowPlaingFile = null
+		this.PlaybackRate = 1
+		this.IsMuted = false
+		this.IsPlaying = false
+		this.IsReading = false
+		this.Volume = 1
+		this.CrossFadeValue = 1
 
-		this.GainNode.connect(this.SideGainNode);
-		var SoundInst = this;
+		this.GainNode.connect(this.SideGainNode)
+		var SoundInst = this
 
 		this.Read = function()
 		{
-			if(this.CurrenReadingSound != null &&
-			this.CurrenReadingSound >= this.Files.length - 1)
+			if (this.CurrenReadingSound != null &&
+				this.CurrenReadingSound >= this.Files.length - 1)
 			{
-				SoundInst.IsReading = false;
-				if(SoundInst.IsPlaying)
+				SoundInst.IsReading = false
+				if ( SoundInst.IsPlaying)
 				{
-					this.Stop();
-					this.Play();
+					this.Stop()
+					this.Play()
 				}
-				return;
+				return
 			}
-			this.CurrenReadingSound = this.CurrenReadingSound == null ? 0 :
-									this.CurrenReadingSound + 1;
-			var url = this.BaseFilePath + "/" + this.Files[this.CurrenReadingSound].id;
 
-			var currentSoundInst = this;
+			this.CurrenReadingSound = this.CurrenReadingSound == null ? 0 : this.CurrenReadingSound + 1
+			var url = this.BaseFilePath + 'Libraries/' + this.Files[this.CurrenReadingSound].id
+			// var url = this.BaseFilePath + "/" + this.Files[this.CurrenReadingSound].id
+			// var currentSoundInst = this
+			SoundInst.IsReading = true
 
-			SoundInst.IsReading = true;
-
-			currentSoundInst.BufferLoader.loadBuffer(url, function(buffer) {
-				window.activeSpinnerSound();
-				var currFile = currentSoundInst.Files[currentSoundInst.CurrenReadingSound];
-				currFile.buffer = buffer;
-				window.activeDurationSound = function(){
-					return buffer["duration"];
-				}
-				currentSoundInst.Read();
+			this.BufferLoader.loadBuffer(url, (buffer) => {
+				var 
+				currFile = this.Files[this.CurrenReadingSound]
+				currFile.buffer = buffer
+				
+				this.Read()
 			});
 		}
 
 		this.AddFiles = function(path, files)
 		{
-			this.Path = path;
-			this.CurrenReadingSound = null;
-			this.Files = files;
+			this.Path = path
+			this.CurrenReadingSound = null
+			this.Files = files
 		}
 
 		this.ResetFiles = function()
@@ -467,12 +469,12 @@ class Sound {
 /**
  * @function Image
  */
-function Image()
-{
-	Img = "";
-	ImgNeg = "";
-	ImgCurrent = "";
-}
+// function Image()
+// {
+// 	Img = "";
+// 	ImgNeg = "";
+// 	ImgCurrent = "";
+// }
 
 /**
  * @class Convolver
@@ -480,18 +482,18 @@ function Image()
 class Convolver {
 	constructor()
 	{
-		this.Source     = null;
-		this.Volume     = 1.0;
-		this.IsMuted    = false;
-		this.GainNode   = null;
-		this.IsOn       = false;
-		this.BufferName = false;
-		this.Instance   = null;
+		this.Source     = null
+		this.Volume     = 1.0
+		this.IsMuted    = false
+		this.GainNode   = null
+		this.IsOn       = false
+		this.BufferName = false
+		this.Instance   = null
 
 		//Init
-		this.Instance = this.Context.createConvolver();
-		this.GainNode = this.Context.createGain();
-		this.Instance.connect(this.GainNode);
+		this.Instance = this.Context.createConvolver()
+		this.GainNode = this.Context.createGain()
+		this.Instance.connect(this.GainNode)
 
 		this.SetBuffer = function(bufferName)
 		{
@@ -503,35 +505,35 @@ class Convolver {
 				return;
 			}
 
-			this.Instance.BufferName = bufferName;
-			var buffer = this.Buffers[bufferName].Buffer;
-			this.IsOn = true;
-			this.Instance.buffer = buffer;
+			this.Instance.BufferName = bufferName
+			var buffer = this.Buffers[bufferName].Buffer
+			this.IsOn = true
+			this.Instance.buffer = buffer
 		}
 
 		this.Mute = function()
 		{
-			this.muted = true;
-			this.setGainVolume();
+			this.muted = true
+			this.setGainVolume()
 		}
 
 		this.Unmute = function()
 		{
-			this.muted = false;
-			this.setGainVolume();
+			this.muted = false
+			this.setGainVolume()
 		}
 
 		this.SetVolume = function(val)
 		{
-			this.Volume = val;
-			this.setGainVolume();
+			this.Volume = val
+			this.setGainVolume()
 		}
 
 		this.setGainVolume = function()
 		{
 			if(this.GainNode)
 			{
-				this.GainNode.gain.value = this.muted ? 0 : this.Volume;
+				this.GainNode.gain.value = this.muted ? 0 : this.Volume
 			}
 		}
 	}
@@ -588,21 +590,24 @@ class SoundAnalizer {
  */
 class Compressor {
 	constructor() {
-		this.compressor = this.Context.createDynamicsCompressor();
-		this.compressor.threshold.value = -1.4;
-		this.compressor.knee.value = 12;
-		this.compressor.ratio.value = 1;
-		this.compressor.reduction.value = 0;
-		this.compressor.attack.value = 0.03;
-		this.compressor.release.value = 15.5;
+		this.compressor = this.Context.createDynamicsCompressor()
+		console.log(this.compressor)
+		this.compressor.threshold.value = -1.4
+		this.compressor.knee.value = 12
+		this.compressor.ratio.value = 1
+		// this.compressor.reduction.value = 0
+		this.compressor.attack.value = 0.03
+		this.compressor.release.value = 15.5
 
-		this.Instance = this.compressor;
+		this.Instance = this.compressor
 	}
 }
 
-Side.prototype = new WebApiBase();
-Sound.prototype = new WebApiBase();
-Convolver.prototype = new WebApiBase();
-Library.prototype = new WebApiBase();
-SoundAnalizer.prototype = new WebApiBase();
-Compressor.prototype = new WebApiBase();
+Side.prototype = new WebApiBase()
+Sound.prototype = new WebApiBase()
+Convolver.prototype = new WebApiBase()
+Library.prototype = new WebApiBase()
+SoundAnalizer.prototype = new WebApiBase()
+Compressor.prototype = new WebApiBase()
+
+export { WebApiBase, Convolver, ConvolverBuffer, Library }

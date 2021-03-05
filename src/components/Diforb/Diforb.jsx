@@ -1,44 +1,44 @@
-import React from "react"
-import PropTypes from "prop-types"
-import { connect } from "react-redux"
-import { playerPlay, playerStop } from "../../store/diforb/actions"
+import React from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { playerPlay, playerStop } from '../../store/diforb/actions'
 
-import "./diforb.scss"
-import "../../assets/styles/Diforb_ui/style.css"
+import './diforb.scss'
+import '../../assets/styles/Diforb_ui/style.css'
 
-import Timeshift from "./Timeshift"
-import VolumeLeft from "./VolumeLeft"
-import VolumeRight from "./VolumeRight"
-import Pitch from "./Pitch"
-import ReverbLeft from "./ReverbLeft"
-import ReverbRight from "./ReverbRight"
-// import Knob from "./Knob"
-import Knob from "./Knob2"
+import Timeshift from './Timeshift'
+import VolumeLeft from './VolumeLeft'
+import VolumeRight from './VolumeRight'
+// import Pitch from './Pitch'
+import ReverbLeft from './ReverbLeft'
+import ReverbRight from './ReverbRight'
+// import Knob from './Knob'
+import Knob from './Knob2'
 
 /**
  * @const className
  */
 const className = {
-    root: "player",
-    wrapper: "player-holder",
-    inner: "player-holder-inner",
-    wave: "player-wave",
-    waveHolder: "player-wave-holder",
-    waveInner: "player-wave-inner",
-    iconLogo: "icon-logo",
-    iconPlay: "icon-play",
-    iconPause: "icon-pause",
-    sliderTop: "slider-top",
-    sliderMiddle: "slider-middle",
-    sliderBottom: "slider-bottom",
-    sliderMiddleLeft: "slider-middle-left",
-    sliderMiddleRight: "slider-middle-right",
-    sliderBottom: "slider-bottom",
-    pitchWrappers: "pitch-wrappers",
-    pitchLeft: "pitch-left",
-    pitchRight: "pitch-right",
-    buttonPlay: "button-play",
-    buttonDownload: "button-download"
+    root: 'player',
+    wrapper: 'player-holder',
+    inner: 'player-holder-inner',
+    wave: 'player-wave',
+    waveHolder: 'player-wave-holder',
+    waveInner: 'player-wave-inner',
+    iconLogo: 'icon-logo',
+    iconPlay: 'icon-play',
+    iconPause: 'icon-pause',
+    sliderTop: 'slider-top',
+    sliderMiddle: 'slider-middle',
+    sliderBottom: 'slider-bottom',
+    sliderMiddleLeft: 'slider-middle-left',
+    sliderMiddleRight: 'slider-middle-right',
+    sliderBottom: 'slider-bottom',
+    pitchWrappers: 'pitch-wrappers',
+    pitchLeft: 'pitch-left',
+    pitchRight: 'pitch-right',
+    buttonPlay: 'button-play',
+    buttonDownload: 'button-download'
 }
 
 /**
@@ -46,8 +46,6 @@ const className = {
  * @param {*} props 
  */
 const Diforb = props => {
-    console.log(props)
-
     const { playerPlay, playerStop } = props
     const { error, loading, playing } = props.Diforb
 
@@ -65,7 +63,7 @@ const Diforb = props => {
                     </div>
 
                     <div className = { className.sliderTop }>
-                        <Timeshift onChange = { (v) => v }/>
+                        <Timeshift onChange = { (v) => console.log(v) }/>
                     </div>
 
                     <div className = { className.sliderMiddle }>
@@ -96,12 +94,12 @@ const Diforb = props => {
 
                     <div 
                         className = { className.buttonPlay }
-                        onClick = { playing ? playerStop : playerPlay }
+                        onClick = { playing ? () => playerStop() : () => playerPlay() }
                     >
                         { 
                             playing 
-                                ? <i className = { className.iconPause } ></i> 
-                                : <i className = { className.iconPlay }></i>
+                            ? <i className = { className.iconPause } ></i> 
+                            : <i className = { className.iconPlay }></i>
                         }
                     </div>
                     <div className = { className.buttonDownload }>

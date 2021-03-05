@@ -1,65 +1,125 @@
-// import Sound from "../models/library"
-import { fromEvent } from "rxjs"
-// import { switchMap } from 'rxjs/operators';
+import { WebApiBase, ConvolverBuffer, Convolver, Library } from '../models/sound'
+import BufferLoader from '../models/bufferLoader'
+import { fromEvent, timer } from 'rxjs'
 
-class First {
-    constructor(){
-        this.volume = 1
+
+const BASE_AUDIO_URL = './src/assets/audio/'
+const DiforbConstans = {
+    ConvolverBufferPath: {
+        stadium: BASE_AUDIO_URL + 'Reverbs/irHall.ogg',
+        hall: BASE_AUDIO_URL + 'Reverbs/noise.ogg',
+        room: BASE_AUDIO_URL + 'Reverbs/glass-hit.ogg'
     }
 }
-
-var audioContext = new (window.AudioContext || window.webkitAudioContext)()
-var startTime = audioContext.currentTime + 0.2
-
-fromEvent(document, 'click').subscribe(
-    () => {
-        var a = new First()
-
-        First.prototype.some = function(){}
-        console.log(a)
-        // init()
-
-        // getSample('./src/assets/audio/Glass_01.wav', function play (buffer) {
-        //     var player = audioContext.createBufferSource()
-        //     player.buffer = buffer
-            
-            
-        //     getSample('./src/assets/audio/Reverbs/irHall.ogg', function(impulse){
-        //         var convolver = audioContext.createConvolver()
-        //         convolver.buffer = impulse
-
-        //         // myAudioSample is fetched and created before
-            
-        //         player.connect(convolver)
-        //         convolver.connect(audioContext.destination)
-        //         player.start(startTime)
-        //     })
-        // })
-    }
-)
-// const TEST_SOUNDS = ['Glass_01.wav','Digital_01.wav', 'Natural_10.wav']
-
-// async function init() {
-//     let sound1 = new Sound(TEST_SOUNDS[0])
-//     // let sound2 = new Sound(TEST_SOUNDS[1])
-//     await sound1.setAudioBuffer()
-//     // await sound2.setAudioBuffer()
-//     sound1.playAudio()
-//     // sound2.playAudio()
-//     console.log(sound1)
-    
+// const Event = {
+//     CLICK: 'click'
 // }
 
-function getSample (url, cb) {
-    var request = new XMLHttpRequest()
-    request.open('GET', url)
-    request.responseType = 'arraybuffer'
-    request.onload = function () {
-        audioContext.decodeAudioData(request.response, cb)
+/**
+ * @class WebAudioService
+ */
+class WebAudioService {
+    constructor()
+    {
+        this.audioCtxt = new (window.AudioContext || window.webkitAudioContext)()
+        this.library = null
+        this.soundNamePrefix = ''
+        
+        WebApiBase.prototype.Context  = this.audioCtxt
+        WebApiBase.prototype.BasePath = BASE_AUDIO_URL
+        WebApiBase.prototype.BaseFilePath = BASE_AUDIO_URL
+        WebApiBase.prototype.BufferLoader = new BufferLoader(this.audioCtxt)
+
+        var locAnalyser
+        locAnalyser = this.audioCtxt.createAnalyser()
+        locAnalyser.fftSize = 1024
+        locAnalyser.smoothingTimeConstant = 0.5
+        WebApiBase.prototype.GeneralAnalyser = locAnalyser
+
+        var locJavaScriptNode = null
+        if (!this.audioCtxt.createScriptProcessor) {
+            locJavaScriptNode = this.audioCtxt.createJavaScriptNode(1024, 2, 2)
+        } else {
+            locJavaScriptNode = this.audioCtxt.createScriptProcessor(1024, 2, 2)
+        }
+
+        WebApiBase.prototype.WaveNode = locJavaScriptNode
+        WebApiBase.prototype.IsRecording = false
+
+        Convolver.prototype.Buffers = {
+            Stadium: new ConvolverBuffer(DiforbConstans.ConvolverBufferPath.stadium),
+            Hall: new ConvolverBuffer(DiforbConstans.ConvolverBufferPath.hall),
+            Room: new ConvolverBuffer(DiforbConstans.ConvolverBufferPath.room)
+        }
+
+        Convolver.prototype.FillBuffers = function() {
+            var instance = this
+
+            instance.BufferLoader.loadBuffer(instance.Buffers.Stadium.Url, (buffer) => {
+                instance.Buffers.Stadium.Buffer = buffer
+                instance.BufferLoader.loadBuffer(instance.Buffers.Hall.Url, (buffer) => {
+                    instance.Buffers.Hall.Buffer = buffer
+                    instance.BufferLoader.loadBuffer(instance.Buffers.Room.Url, (buffer) => {
+                        instance.Buffers.Room.Buffer = buffer
+
+                    })
+                })
+            })
+        }
+
+        Convolver.prototype.FillBuffers()
     }
-    request.send()
+
+    setLibrary(name)
+    {
+        this.library = new Library(name)
+    }
+
+    addLeftSound(name)
+    {
+        this.library.LeftSide.AddSound(name)
+    }
+
+    addRightSound(name)
+    {
+        this.library.RightSide.AddSound(name)
+    }
+
+    setSoundNamePrefix(soumdNamePrefix)
+    {
+        this.soundNamePrefix = soumdNamePrefix
+    }
 }
 
 
-export default { }
+const webAudioService = new WebAudioService()
+const SoundGroups = ['Designed', 'Extra', 'Main', 'Music', 'PopUp', 'Swish']
+
+
+// timer(2000).subscribe(() => {
+//     webAudioService.setLibrary('[library] test')
+//     // webAudioService.library.SoundAnalizer.AddVisualizer(drawAudioWave.handleChannelData)
+//     SoundGroups.forEach(groupeName => {
+//         webAudioService.addLeftSound(groupeName)
+//         webAudioService.addRightSound(groupeName)
+//     })
+// })
+
+// fromEvent(document, Event.CLICK).subscribe(() => {
+//     const side = webAudioService.library.LeftSide
+
+//     console.log(webAudioService)
+
+//     const webAudioSound = side.Sounds[SoundGroups[0]]
+
+//     webAudioSound.AddFiles('', [{ id: 'Interface/Designed/Digital/Complex_01.wav'}] )
+// 	webAudioSound.Read()
+
+//     // setTimeout(() => {
+//     //     webAudioService.library.Stop()
+// 	// 	webAudioService.library.Play()
+//     // }, 0)
+// })
+
+export default { webAudioService }
 
