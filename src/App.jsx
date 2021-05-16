@@ -8,6 +8,8 @@ import { initFirebaseBackend } from '@/helpers/firebase_helper'
 import VerticalLayout from './components/VerticalLayout/'
 import NonAuthLayout from './components/NonAuthLayout'
 
+import AlphaBet from './components/EXPERIMENTS/AlphaBet'
+
 const firebaseConfig = {
 	apiKey: 'AIzaSyAISYi8vsy_vevtSubMdg1mpD9NXDkb6bE',
 	authDomain: 'diforb-3f984.firebaseapp.com',
@@ -43,7 +45,8 @@ const App = props => {
     const Layout = getLayout()
     return (
         <React.Fragment>
-            <Router>
+            <AlphaBet />
+            {/* <Router>
                 <Switch>
                     {authRoutes.map((route, idx) => (
                         <Authmiddleware
@@ -66,7 +69,7 @@ const App = props => {
                         />
                     ))}
                 </Switch>
-            </Router>
+            </Router> */}
         </React.Fragment>
     )
 }
